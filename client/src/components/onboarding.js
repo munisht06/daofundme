@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import { Link } from "react-router-dom";
-import Image from "./images/BlockchainBackground.gif";
+import Image from "./images/Donation.gif";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link as Scroll } from "react-scroll";
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
     padding: 350,
-    color: "#FFF",
+    color: "#000",
   },
   appbar: {
     background: "transparent",
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   appbarTitle: {
     flexGrow: "1",
     fontFamily: "Geneva, Tahoma, sans-serif",
-    color: "#FFF",
+    color: "#000",
     marginLeft: "30px",
   },
 }));
@@ -59,7 +59,7 @@ const Onboarding = () => {
               width: "100%",
             }}
           >
-            <Box sx={{ color: "white" }}>
+            <Box sx={{ color: "black" }}>
               <Button color="inherit" variant="outlined">
                 Sign In
               </Button>
@@ -73,15 +73,17 @@ const Onboarding = () => {
             <Typography class={classes.title}>
               <h1>DaoFundMe</h1>
               <h3>Decentralized Funding for Nonprofit Projects</h3>
-              <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to="/signup"
-                position="absolute"
-              >
-                Get Started
-              </Button>
+              <Box sx={{ color: "#C66461" }}>
+                <Button
+                  variant="outlined"
+                  color="inherit"
+                  component={Link}
+                  to="/signup"
+                  position="absolute"
+                >
+                  Get Started
+                </Button>
+              </Box>
               <IconButton position="relative" style={{ color: "#000" }}>
                 <ExpandMoreIcon />
               </IconButton>
