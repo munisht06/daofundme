@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { dbClient } = require('../config/index');
+const dbClient = require('../config/db');
 const { userController } = require('../user/index');
 
 class Fundraiser {
@@ -28,7 +28,6 @@ class Fundraiser {
 
 			// Run Statement
 			const result = await collection.updateOne(filter, updateDoc, options);
-			db.close();
 			return result;
 		});
 	}
@@ -51,11 +50,9 @@ class Fundraiser {
 
 			// If a user is found it will return it otherwise, returns null
 			if (!_.isNil(collection)) return collection;
-			return null;
+			return {};
 		} catch (e) {
 			throw e;
-		} finally {
-			await dbClient.close();
 		}
 	}
 
@@ -64,8 +61,7 @@ class Fundraiser {
 			fundraiserDocRequest.title
 		);
 
-		console.log(fundraiserExist);
-		if (!_.isNil(fundraiserExist)) return null;
+		if (!_.isEmpty(fundraiserExist)) return {};
 
 		const fundraiserDoc = { ...fundraiserDocRequest, User: username };
 
@@ -80,7 +76,7 @@ class Fundraiser {
 			const result = await collection.insertOne(fundraiserDoc);
 			await userController.addFundraiser(username, result.insertedId);
 
-			db.close();
+			console.log(result);
 			return result;
 		});
 	}
@@ -93,8 +89,6 @@ class Fundraiser {
 			return result;
 		} catch (e) {
 			throw e;
-		} finally {
-			await dbClient.close();
 		}
 	}
 
@@ -110,7 +104,6 @@ class Fundraiser {
 
 			// Run Statement
 			const result = await collection.deleteOne(query);
-			db.close();
 
 			return result;
 		});
