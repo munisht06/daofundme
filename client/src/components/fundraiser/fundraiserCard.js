@@ -5,30 +5,47 @@ import {
   Typography,
   Grid,
   Button,
+  Box,
   CardActions,
+  LinearProgress,
 } from "@mui/material";
 
 const FundraiserCard = ({ fundraiser }) => {
   return (
-    <Grid item xs={2}>
+    <Grid item xs={3.5}>
       <Card>
         <CardContent>
-          <Typography color="textSecondary" gutterBottom>
-            Word of the Day
-          </Typography>
           <Typography variant="h5" component="h2">
-            be nev o lent
+            Fundraising for Red Cross
           </Typography>
-          <Typography color="textSecondary">adjective</Typography>
 
-          <Typography variant="body2" component="p">
-            well meaning and kindly.
+          <Typography sx={{ paddingBlock: 4 }} variant="body1" component="p">
+            The American Red Cross prevents and alleviates human suffering in
+            the face of emergencies by mobilizing the power of volunteers and
+            the generosity of donors.
             <br />
             {'"a benevolent smile"'}
           </Typography>
+          <Box sx={{ color: "green" }}>
+            <LinearProgress
+              sx={{ marginTop: 3 }}
+              variant="determinate"
+              value={50}
+              color="inherit"
+            />
+          </Box>
+          <Typography variant="body2">Goal: $20,000 of $50,000</Typography>
+          <Typography color="textSecondary" variant="body2">
+            (3472.33 DESO of 8680.55 DESO)
+          </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Learn More</Button>
+          <Box textAlign="center">
+            <Typography color="textSecondary" variant="body2">
+              50% progress
+            </Typography>
+            <Button size="small">Learn More</Button>
+          </Box>
         </CardActions>
       </Card>
     </Grid>
