@@ -1,4 +1,4 @@
-const { dbClient } = require('../config/index');
+const dbClient = require('../config/db');
 const _ = require('lodash');
 
 class User {
@@ -44,7 +44,6 @@ class User {
 
 			// Run Statement
 			const result = await collection.updateOne(filter, updateDoc, options);
-			db.close();
 			return result;
 		});
 	}
@@ -67,8 +66,6 @@ class User {
 			return null;
 		} catch (e) {
 			throw e;
-		} finally {
-			await dbClient.close();
 		}
 	}
 
@@ -93,7 +90,6 @@ class User {
 
 			// Run Statement
 			const result = await collection.insertOne(newUserDoc);
-			db.close();
 
 			return result;
 		});
@@ -111,7 +107,6 @@ class User {
 
 			// Run Statement
 			const result = await collection.deleteOne(query);
-			db.close();
 
 			return result;
 		});
