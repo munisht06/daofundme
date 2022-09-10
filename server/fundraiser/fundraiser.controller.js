@@ -19,17 +19,13 @@ class Fundraiser {
 			$set: updateDocRequest,
 		};
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
-			// Run Statement
-			const result = await collection.updateOne(filter, updateDoc, options);
-			return result;
-		});
+		// Run Statement
+		const result = await this.fundraiserCollection.updateOne(
+			filter,
+			updateDoc,
+			options
+		);
+		return result;
 	}
 
 	async getFundraiser(title) {
@@ -65,20 +61,15 @@ class Fundraiser {
 
 		const fundraiserDoc = { ...fundraiserDocRequest, User: username };
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
+		try {
 			// Run Statement and add fundraiser to user
-			const result = await collection.insertOne(fundraiserDoc);
+			const result = await this.fundraiserCollection.insertOne(fundraiserDoc);
 			await userController.addFundraiser(username, result.insertedId);
 
-			console.log(result);
 			return result;
-		});
+		} catch (e) {
+			throw e;
+		}
 	}
 
 	async getFundraisers() {
@@ -95,18 +86,10 @@ class Fundraiser {
 	async deleteFundraiser(title) {
 		const query = { title };
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
+		// Run Statement
+		const result = this.fundraiserCollection.deleteOne(query);
 
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
-			// Run Statement
-			const result = await collection.deleteOne(query);
-
-			return result;
-		});
+		return result;
 	}
 }
 
