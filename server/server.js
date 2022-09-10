@@ -10,8 +10,6 @@ app.use(auth0);
 // Use cors
 app.use(cors());
 
-
-
 // Use user routes
 app.use("/user", userRoute);
 app.get("/", (req, res) => {
