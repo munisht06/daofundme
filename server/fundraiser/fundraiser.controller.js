@@ -1,35 +1,19 @@
-const { dbClient } = require('../config/index');
 const _ = require('lodash');
+const { dbClient } = require('../config/index');
+const { userController } = require('../user/index');
 
-class User {
+class Fundraiser {
 	constructor() {
 		const database = dbClient.db('DaoFundMe');
 
 		// Properties
-		this.userCollection = database.collection('User');
+		this.fundraiserCollection = database.collection('Fundraiser');
 		this.databaseName = 'DaoFundMe';
-		this.collectionName = 'User';
+		this.collectionName = 'Fundraiser';
 	}
 
-	async addFundraiser(username, fundRaiserId) {
-		try {
-			// Find the user, Add a new fundraiser to the existing list and create document for updating
-			const user = await this.getUser(username);
-			const newFundraiserList = [...user.Fundraiser, fundRaiserId];
-			const updateDoc = {
-				Fundraiser: newFundraiserList,
-			};
-
-			// Updates the user with new fundraiser
-			const result = await this.updateUser(username, updateDoc);
-			return result;
-		} catch (e) {
-			throw e;
-		}
-	}
-
-	async updateUser(username, updateDocRequest) {
-		const filter = { username };
+	async updateFundraiser(title, updateDocRequest) {
+		const filter = { title };
 		const options = { upsert: true };
 		const updateDoc = {
 			$set: updateDocRequest,
@@ -49,21 +33,24 @@ class User {
 		});
 	}
 
-	async getUser(username) {
+	async getFundraiser(title) {
 		// Query and Sort options for searching user
 		const query = {
-			username,
+			title,
 		};
 		const options = {
-			sort: { username: 1 },
+			sort: { title: 1 },
 		};
 
 		try {
 			// Finds the user in the collection
-			const user = await this.userCollection.findOne(query, options);
+			const collection = await this.fundraiserCollection.findOne(
+				query,
+				options
+			);
 
 			// If a user is found it will return it otherwise, returns null
-			if (!_.isNil(user)) return user;
+			if (!_.isNil(collection)) return collection;
 			return null;
 		} catch (e) {
 			throw e;
@@ -72,17 +59,15 @@ class User {
 		}
 	}
 
-	async createUser(username, bio, wallet = '') {
-		const userExist = await this.getUser(username);
-		if (!_.isNil(userExist)) return null;
+	async createFundraiser(username, fundraiserDocRequest) {
+		const fundraiserExist = await this.getFundraiser(
+			fundraiserDocRequest.title
+		);
 
-		// New user data
-		const newUserDoc = {
-			username,
-			bio,
-			wallet,
-			Fundraiser: [],
-		};
+		console.log(fundraiserExist);
+		if (!_.isNil(fundraiserExist)) return null;
+
+		const fundraiserDoc = { ...fundraiserDocRequest, User: username };
 
 		dbClient.connect(async (err, db) => {
 			if (err) throw err;
@@ -91,16 +76,30 @@ class User {
 			const database = db.db(this.databaseName);
 			const collection = database.collection(this.collectionName);
 
-			// Run Statement
-			const result = await collection.insertOne(newUserDoc);
-			db.close();
+			// Run Statement and add fundraiser to user
+			const result = await collection.insertOne(fundraiserDoc);
+			await userController.addFundraiser(username, result.insertedId);
 
+			db.close();
 			return result;
 		});
 	}
 
-	async deleteUser(username) {
-		const query = { username };
+	async getFundraisers() {
+		// Query and Sort options for searching user
+		try {
+			// Finds all fundraisers and return them
+			const result = await this.fundraiserCollection.find({}).toArray();
+			return result;
+		} catch (e) {
+			throw e;
+		} finally {
+			await dbClient.close();
+		}
+	}
+
+	async deleteFundraiser(title) {
+		const query = { title };
 
 		dbClient.connect(async (err, db) => {
 			if (err) throw err;
@@ -118,4 +117,4 @@ class User {
 	}
 }
 
-module.exports = new User();
+module.exports = new Fundraiser();
