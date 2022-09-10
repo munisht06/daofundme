@@ -1,18 +1,21 @@
 const express = require("express");
 const { auth0 } = require("./config/index");
 const cors = require("cors");
+const userRoot = require("./Routes/user.routes");
 
 const app = express();
 
 // Use auth0 configuration
 app.use(auth0);
-// Use cors 
+// Use cors
 app.use(cors());
 
-// Testing auth0
+
+
+// Use user routes
+app.use("/user", userRoot);
 app.get("/", (req, res) => {
-  res.send("Hello World!");
-  console.log(req.oidc.isAuthenticated());
+  res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
 });
 
 module.exports = app;
