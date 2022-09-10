@@ -30,10 +30,14 @@ const useStyles = makeStyles((theme) => ({
     textShadow: "3px 3px #FA8627",
   },
   appbar: {
-    background: "white",
+    background: "#C66461",
     alignItems: "center",
     boxShadow: "none",
     display: "flex",
+  },
+  appbarTitle: {
+    flexGrow: "1",
+    fontFamily: "Geneva, Tahoma, sans-serif",
   },
 }));
 
@@ -43,7 +47,9 @@ const Onboarding = () => {
     <div className={classes.root} id="header">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar class={classes.appbar} elevation={0}>
-          <h2>DaoFundMe</h2>
+          <Typography variant="h2" class={classes.appbarTitle}>
+            DaoFundMe
+          </Typography>
           <Toolbar
             sx={{
               display: "flex",
