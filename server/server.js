@@ -1,5 +1,5 @@
 const express = require("express");
-const { auth0 } = require("./configs/index");
+const { auth0 } = require("./config/index");
 const cors = require("cors");
 
 const app = express();
