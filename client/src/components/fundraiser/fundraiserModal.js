@@ -1,22 +1,26 @@
 import React from "react";
 import { Paper, Grid, Button, TextField, Snackbar } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MuiAlert from "@mui/material/Alert";
 
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const FundraiserModal = ({ fundraiser }) => {
-  const navigate = useNavigate();
-  const [title, setTitle] = useState(fundraiser.title);
-  const [description, setDescription] = useState(fundraiser.description);
-  const [goal, setGoal] = useState(fundraiser.goal);
-  const [endDate, setEndDate] = useState(fundraiser.endDate);
+const FundraiserModal = () => {
+  const [value, setValue] = React.useState(dayjs());
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+  //   const navigate = useNavigate();
+  //   const [title, setTitle] = useState(fundraiser.title);
+  //   const [description, setDescription] = useState(fundraiser.description);
+  //   const [goal, setGoal] = useState(fundraiser.goal);
+  //   const [endDate, setEndDate] = useState(fundraiser.endDate);
 
   return (
-    <div>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Paper
         style={{
           margin: "auto",
@@ -38,8 +42,7 @@ const FundraiserModal = ({ fundraiser }) => {
                 label="Title"
                 fullWidth
                 autoComplete="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                //onChange={(e) => setTitle(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -50,8 +53,7 @@ const FundraiserModal = ({ fundraiser }) => {
                 label="Description"
                 fullWidth
                 autoComplete="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                //onChange={(e) => setDescription(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -60,30 +62,27 @@ const FundraiserModal = ({ fundraiser }) => {
                 id="goal"
                 name="goal"
                 label="Goal"
+                type={"number"}
                 fullWidth
                 autoComplete="goal"
-                value={goal}
-                onChange={(e) => setGoal(e.target.value)}
+                //onChange={(e) => setGoal(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                id="endDate"
-                name="endDate"
+              <DesktopDatePicker
                 label="End Date"
-                fullWidth
-                autoComplete="endDate"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                inputFormat="MM/DD/YYYY"
+                value={value}
+                onChange={handleChange}
+                renderInput={(params) => <TextField fullWidth {...params} />}
               />
             </Grid>
             <Grid item xs={12}>
               <Button
                 type="submit"
                 fullWidth
-                variant="contained"
-                color="primary"
+                variant="outlined"
+                sx={{ color: "#C66461", border: "#C66461" }}
                 style={{ marginTop: "1em" }}
               >
                 Submit
@@ -92,7 +91,7 @@ const FundraiserModal = ({ fundraiser }) => {
           </Grid>
         </form>
       </Paper>
-    </div>
+    </LocalizationProvider>
   );
 };
 

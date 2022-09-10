@@ -21,7 +21,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar">
       <div className="top">
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/dashboard" style={{ textDecoration: "none" }}>
           <span className="logo">DaoFundMe</span>
         </Link>
       </div>
@@ -34,11 +34,11 @@ const Sidebar = () => {
               variant="outlined"
               onClick={handleOpen}
             >
-              <Modal open={open} onClose={handleClose}>
-                <FundraiserModal />
-              </Modal>
               Create Fundraiser
             </Button>
+            <Modal open={open} onClose={handleClose}>
+              <FundraiserModal />
+            </Modal>
           </Box>
           <p className="title">MAIN</p>
           <li>
