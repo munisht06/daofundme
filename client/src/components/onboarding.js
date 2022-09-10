@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Image from "./images/Donation.gif";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link as Scroll } from "react-scroll";
+import Textanimation from "./testanimation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,8 +72,7 @@ const Onboarding = () => {
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <Typography class={classes.title}>
-              <h1>DaoFundMe</h1>
-              <h3>Decentralized Funding for Nonprofit Projects</h3>
+              <Textanimation />
               <Box sx={{ color: "#C66461" }}>
                 <Button
                   variant="outlined"

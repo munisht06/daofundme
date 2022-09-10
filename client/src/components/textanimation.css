@@ -1,0 +1,22 @@
+.drop-down{
+  overflow: hidden;
+  
+}
+
+.drop-down h1 {
+  animation: 500ms drop-down 500ms forwards;
+    transform:translateY(-200%);
+    /* animation-duration: 3s; */
+}
+.drop-down h3 {
+  animation: 500ms drop-down 500ms forwards;
+    transform:translateY(-500%);
+    /* animation-duration: s; */
+
+}
+
+@keyframes drop-down {
+  to {
+    transform:translateY(0);
+  }
+}
