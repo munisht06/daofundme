@@ -23,8 +23,8 @@ const Fundraiser = () => {
 	const fundraiser = location.state.fundraiser;
 	const [open, setOpen] = useState(false);
 	const [goal, setGoal] = useState(fundraiser.goal);
-	const [raised, setRaised] = useState(5000);
-	const [donation, setDonation] = useState(0);
+	const [raised, setRaised] = useState(fundraiser.donations);
+	const [donation, setDonation] = useState(fundraiser.total);
 	const [description, setDescription] = useState(fundraiser.description);
 	const [title, setTitle] = useState(fundraiser.title);
 	const [image, setImage] = useState('');
@@ -87,7 +87,6 @@ const Fundraiser = () => {
 		<div className={classes.root}>
 			<Sidebar />
 			<div className={classes.container}>
-				{console.log(fundraiser)}
 				<Grid container spacing={6} className={classes.fundraiserContainer}>
 					<Grid item xs={6}>
 						<Paper elevation={0} className={classes.fundraiserCard}>

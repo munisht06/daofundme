@@ -3,7 +3,9 @@ import axios from 'axios';
 function useDonate() {
 	const apiUrl = 'https://daofundme-prod.herokuapp.com';
 
-	const donate = async (title, amount) => {
+	const donate = async (requestData) => {
+		const { title, amount } = requestData;
+
 		try {
 			const res = await axios.post(`${apiUrl}/fundraiser/donate`, {
 				title,
