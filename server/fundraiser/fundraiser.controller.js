@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { dbClient } = require('../config/index');
+const dbClient = require('../config/db');
 const { userController } = require('../user/index');
 
 class Fundraiser {
@@ -19,18 +19,13 @@ class Fundraiser {
 			$set: updateDocRequest,
 		};
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
-			// Run Statement
-			const result = await collection.updateOne(filter, updateDoc, options);
-			db.close();
-			return result;
-		});
+		// Run Statement
+		const result = await this.fundraiserCollection.updateOne(
+			filter,
+			updateDoc,
+			options
+		);
+		return result;
 	}
 
 	async getFundraiser(title) {
@@ -51,11 +46,9 @@ class Fundraiser {
 
 			// If a user is found it will return it otherwise, returns null
 			if (!_.isNil(collection)) return collection;
-			return null;
+			return {};
 		} catch (e) {
 			throw e;
-		} finally {
-			await dbClient.close();
 		}
 	}
 
@@ -64,25 +57,19 @@ class Fundraiser {
 			fundraiserDocRequest.title
 		);
 
-		console.log(fundraiserExist);
-		if (!_.isNil(fundraiserExist)) return null;
+		if (!_.isEmpty(fundraiserExist)) return {};
 
 		const fundraiserDoc = { ...fundraiserDocRequest, User: username };
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
+		try {
 			// Run Statement and add fundraiser to user
-			const result = await collection.insertOne(fundraiserDoc);
+			const result = await this.fundraiserCollection.insertOne(fundraiserDoc);
 			await userController.addFundraiser(username, result.insertedId);
 
-			db.close();
 			return result;
-		});
+		} catch (e) {
+			throw e;
+		}
 	}
 
 	async getFundraisers() {
@@ -93,27 +80,16 @@ class Fundraiser {
 			return result;
 		} catch (e) {
 			throw e;
-		} finally {
-			await dbClient.close();
 		}
 	}
 
 	async deleteFundraiser(title) {
 		const query = { title };
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
+		// Run Statement
+		const result = this.fundraiserCollection.deleteOne(query);
 
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
-			// Run Statement
-			const result = await collection.deleteOne(query);
-			db.close();
-
-			return result;
-		});
+		return result;
 	}
 }
 
