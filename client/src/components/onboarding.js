@@ -16,6 +16,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link as Scroll } from "react-scroll";
 import Info from "./info";
 import Textanimation from "./textanimation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +49,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Onboarding = () => {
   const classes = useStyles();
+
+  let url = "https://daofundme-prod.herokuapp.com/";
+  let navigate = useNavigate();
+  const handleSignIn = () => {
+    axios
+      .get(url + "login")
+      .then((res) => {
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div>
       <div className={classes.root} id="header">
@@ -63,7 +78,11 @@ const Onboarding = () => {
               }}
             >
               <Box sx={{ color: "black" }}>
-                <Button color="inherit" variant="outlined">
+                <Button
+                  color="inherit"
+                  variant="outlined"
+                  onClick={handleSignIn}
+                >
                   Sign In
                 </Button>
               </Box>
