@@ -11,50 +11,51 @@ class User {
 		this.collectionName = 'User';
 	}
 
-	async addFundraiser(username, fundRaiserId) {
+	async addFundraiser(email, fundRaiserId) {
 		try {
 			// Find the user, Add a new fundraiser to the existing list and create document for updating
-			const user = await this.getUser(username);
+			const user = await this.getUser(email);
+			console.log(user);
 			const newFundraiserList = [...user.Fundraiser, fundRaiserId];
 			const updateDoc = {
 				Fundraiser: newFundraiserList,
 			};
 
 			// Updates the user with new fundraiser
-			const result = await this.updateUser(username, updateDoc);
+			const result = await this.updateUser(email, updateDoc);
 			return result;
 		} catch (e) {
 			throw e;
 		}
 	}
 
-	async updateUser(username, updateDocRequest) {
-		const filter = { username };
+	async updateUser(email, updateDocRequest) {
+		const filter = { email };
 		const options = { upsert: true };
 		const updateDoc = {
 			$set: updateDocRequest,
 		};
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
-			// Run Statement
-			const result = await collection.updateOne(filter, updateDoc, options);
+		// Run Statement
+		try {
+			const result = await this.userCollection.updateOne(
+				filter,
+				updateDoc,
+				options
+			);
 			return result;
-		});
+		} catch (e) {
+			throw e;
+		}
 	}
 
-	async getUser(username) {
+	async getUser(email) {
 		// Query and Sort options for searching user
 		const query = {
-			username,
+			email,
 		};
 		const options = {
-			sort: { username: 1 },
+			sort: { email: 1 },
 		};
 
 		try {
@@ -69,47 +70,37 @@ class User {
 		}
 	}
 
-	async createUser(username, bio, wallet = '') {
-		const userExist = await this.getUser(username);
+	async createUser(email, bio, wallet = '') {
+		const userExist = await this.getUser(email);
 		if (!_.isNil(userExist)) return null;
 
 		// New user data
 		const newUserDoc = {
-			username,
+			email,
 			bio,
 			wallet,
 			Fundraiser: [],
 		};
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
+		try {
 			// Run Statement
-			const result = await collection.insertOne(newUserDoc);
-
+			const result = await this.userCollection.insertOne(newUserDoc);
 			return result;
-		});
+		} catch (e) {
+			throw e;
+		}
 	}
 
-	async deleteUser(username) {
-		const query = { username };
+	async deleteUser(email) {
+		const query = { email };
 
-		dbClient.connect(async (err, db) => {
-			if (err) throw err;
-
-			// Configuration Setup
-			const database = db.db(this.databaseName);
-			const collection = database.collection(this.collectionName);
-
+		try {
 			// Run Statement
-			const result = await collection.deleteOne(query);
-
+			const result = await this.userCollection.deleteOne(query);
 			return result;
-		});
+		} catch (e) {
+			throw e;
+		}
 	}
 }
 
