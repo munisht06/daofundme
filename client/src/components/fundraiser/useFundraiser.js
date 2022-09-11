@@ -6,6 +6,7 @@ function useFundraiser() {
 	const apiUrl = 'https://daofundme-prod.herokuapp.com';
 
 	const createFundraiser = async (fundraiserData) => {
+		console.log(fundraiserData);
 		try {
 			const res = await axios.post(
 				`${apiUrl}/fundraiser/create`,
