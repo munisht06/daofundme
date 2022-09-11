@@ -5,13 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { domain, clientId } from './constants';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<BrowserRouter>
 		<Auth0Provider
-			domain="daofundme-auth.us.auth0.com"
-			clientId="L1udU93ILcfPvYdq47txvYLmdLI2WnxM"
+			domain={domain}
+			clientId={clientId}
 			redirectUri={window.location.origin}
 		>
 			<App />
