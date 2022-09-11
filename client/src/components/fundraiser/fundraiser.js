@@ -13,6 +13,7 @@ import {
   LinearProgress,
   Box,
 } from "@mui/material";
+import axios from "axios";
 
 import {useLocation} from 'react-router-dom';
 
@@ -55,11 +56,10 @@ const Fundraiser = () => {
     },
     fundraiserContainer: {
       flexDirection: "row",
-     
     },
     fundraiserCard: {
       paddingBlock: 10,
-      marginLeft: 10
+      marginLeft: 10,
     },
     description: {
       padding: 50,
