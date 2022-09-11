@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import MuiAlert from "@mui/material/Alert";
+import Deso from "deso-protocol";
 
 const FundraiserModal = () => {
   const [value, setValue] = React.useState(dayjs());
@@ -18,6 +19,16 @@ const FundraiserModal = () => {
   //   const [description, setDescription] = useState(fundraiser.description);
   //   const [goal, setGoal] = useState(fundraiser.goal);
   //   const [endDate, setEndDate] = useState(fundraiser.endDate);
+  const [publicKey, setPublicKey] = useState("");
+
+  const deso = new Deso();
+
+  const handleWallet = async () => {
+    await deso.identity.login();
+    const loggedInUserKey = deso.identity.getUserKey();
+    console.log(loggedInUserKey);
+    setPublicKey(loggedInUserKey);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -76,6 +87,17 @@ const FundraiserModal = () => {
                 onChange={handleChange}
                 renderInput={(params) => <TextField fullWidth {...params} />}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleWallet}
+                required
+                fullWidth
+              >
+                Connect Wallet
+              </Button>
             </Grid>
             <Grid item xs={12}>
               <Button

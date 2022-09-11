@@ -8,6 +8,7 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import FundraiserModal from "./fundraiser/fundraiserModal";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +18,8 @@ const Sidebar = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const { logout } = useAuth0();
+
 
   return (
     <div className="sidebar">
@@ -45,7 +48,6 @@ const Sidebar = () => {
             <DashboardIcon className="icon" />
             <span>Dashboard</span>
           </li>
-
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
@@ -53,7 +55,15 @@ const Sidebar = () => {
           </li>
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <span
+              onClick={() =>
+                logout({
+                  returnTo: window.location.origin,
+                })
+              }
+            >
+              Logout
+            </span>
           </li>
         </ul>
       </div>
