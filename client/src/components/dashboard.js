@@ -41,7 +41,7 @@ const Dashboard = () => {
   const [fundraisers, setFundraisers] = useState([]);
   const fetchFundraisers = async () => {
     const response = await axios.get(
-      "https://daofundme-prod.herokuapp.com/fundraiser/fundraisers"
+      "https://daofundme-dev.herokuapp.com/fundraiser/fundraisers"
     );
     setFundraisers(response.data.fundraisers);
     console.log(response.data);

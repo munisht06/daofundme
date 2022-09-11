@@ -14,14 +14,18 @@ import {
   Box,
 } from "@mui/material";
 
-const Fundraiser = (prop) => {
-  const [goal, setGoal] = useState(10000);
+import {useLocation} from 'react-router-dom';
+
+const Fundraiser = () => {
+
+  const location = useLocation();
+  const fundraiser = location.state.fundraiser;
+
+  const [goal, setGoal] = useState(fundraiser.goal);
   const [raised, setRaised] = useState(5000);
   const [donation, setDonation] = useState(0);
-  const [description, setDescription] = useState(
-    "This Go Fund Me Page is established in honor and loving memory of Lucy Fernandez. All proceeds will go to the Lucy Fernandez Foundation to set up a scholarship at Our Lady of Lourdes Academy, her cherished school, where she formed strong bonds of sisterhood. The scholarship will afford students the opportunity to share in what generations of young women, like Lucy, were fortunate to experience. With Mary in all things, the Lucy Fernandez Foundation will continue Lucy’s legacy of faith, kindness and love."
-  );
-  const [title, setTitle] = useState("Red Cross");
+  const [description, setDescription] = useState( fundraiser.description);
+  const [title, setTitle] = useState(fundraiser.title);
   const [image, setImage] = useState("");
   const [id, setId] = useState("");
   const [progress, setProgress] = useState((raised / goal) * 100);
@@ -76,6 +80,7 @@ const Fundraiser = (prop) => {
     <div className={classes.root}>
       <Sidebar />
       <div className={classes.container}>
+        {console.log(fundraiser)}
         <Grid container spacing={6} className={classes.fundraiserContainer}>
           <Grid item xs={6}>
             <Paper elevation={0} className={classes.fundraiserCard}>

@@ -17,7 +17,7 @@ const FundraiserCard = ({ fundraiser }) => {
   const [goal, setGoal] = useState(fundraiser.goal);
   const [endDate, setEndDate] = useState(fundraiser.endDate);
   const [user, setUser] = useState(fundraiser.user);
-
+  
   const navigate = useNavigate();
 
   return (
@@ -55,8 +55,9 @@ const FundraiserCard = ({ fundraiser }) => {
             <Button
               size="small"
               onClick={() => {
-                navigate("/fundraiser/" + fundraiser._id, {
-                  state: { fundraiser: fundraiser },
+                console.log("clicked");
+                navigate("/fundraiser/" + fundraiser.id, {
+                  state: { fundraiser },
                 });
               }}
             >
