@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Onboarding from "./components/onboarding";
 import Dashboard from "./components/dashboard";
 import Fundraiser from "./components/fundraiser/fundraiser";
+import Profile from "./components/profile";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Onboarding />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/fundraiser" element={<Fundraiser />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

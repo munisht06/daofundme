@@ -13,8 +13,9 @@ import {
   LinearProgress,
   Box,
 } from "@mui/material";
+import axios from "axios";
 
-const Fundraiser = (prop) => {
+const Fundraiser = (props) => {
   const [goal, setGoal] = useState(10000);
   const [raised, setRaised] = useState(5000);
   const [donation, setDonation] = useState(0);
@@ -51,11 +52,10 @@ const Fundraiser = (prop) => {
     },
     fundraiserContainer: {
       flexDirection: "row",
-     
     },
     fundraiserCard: {
       paddingBlock: 10,
-      marginLeft: 10
+      marginLeft: 10,
     },
     description: {
       padding: 50,
