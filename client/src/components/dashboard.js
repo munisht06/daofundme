@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import {
   Box,
@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import Sidebar from "./sidebar";
 import "./dashboard.scss";
 import FundraiserCard from "./fundraiser/fundraiserCard";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 //create styles for the dashboard component
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +38,29 @@ const useStyles = makeStyles((theme) => ({
 
 //create a dashboard component
 const Dashboard = () => {
+  const [fundraisers, setFundraisers] = useState([]);
+  const fetchFundraisers = async () => {
+    const response = await axios.get(
+      "https://daofundme-prod.herokuapp.com/fundraiser/fundraisers"
+    );
+    setFundraisers(response.data.fundraisers);
+    console.log(response.data);
+    //catch any errors
+  };
+
+  useEffect(() => {
+    fetchFundraisers();
+  }, []);
+
+  const cards = fundraisers.map((fundraiser) => {
+    console.log(fundraiser);
+    return (
+      <FundraiserCard
+        fundraiser={fundraiser}
+        ></FundraiserCard>
+    );
+  });
+
   const classes = useStyles();
   return (
     //sidebar component
@@ -52,9 +77,7 @@ const Dashboard = () => {
           alignItems="center"
           spacing={3}
         >
-          <FundraiserCard />
-          <FundraiserCard />
-          <FundraiserCard />
+         {cards}
         </Grid>
       </div>
     </div>

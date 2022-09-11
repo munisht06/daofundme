@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,20 +9,28 @@ import {
   CardActions,
   LinearProgress,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const FundraiserCard = ({ fundraiser }) => {
+  const [title, setTitle] = useState(fundraiser.title);
+  const [description, setDescription] = useState(fundraiser.description);
+  const [goal, setGoal] = useState(fundraiser.goal);
+  const [endDate, setEndDate] = useState(fundraiser.endDate);
+  const [user, setUser] = useState(fundraiser.user);
+
+  const navigate = useNavigate();
+
   return (
     <Grid item xs={3.5}>
+      {console.log(fundraiser)}
       <Card>
         <CardContent>
           <Typography variant="h5" component="h2">
-            Fundraising for Red Cross
+            {title}
           </Typography>
 
           <Typography sx={{ paddingBlock: 4 }} variant="body1" component="p">
-            The American Red Cross prevents and alleviates human suffering in
-            the face of emergencies by mobilizing the power of volunteers and
-            the generosity of donors.
+            {description}
             <br />
             {'"a benevolent smile"'}
           </Typography>
@@ -44,7 +52,16 @@ const FundraiserCard = ({ fundraiser }) => {
             <Typography color="textSecondary" variant="body2">
               50% progress
             </Typography>
-            <Button size="small">Learn More</Button>
+            <Button
+              size="small"
+              onClick={() => {
+                navigate("/fundraiser/" + fundraiser._id, {
+                  state: { fundraiser: fundraiser },
+                });
+              }}
+            >
+              Learn More
+            </Button>
           </Box>
         </CardActions>
       </Card>
