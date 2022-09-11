@@ -15,6 +15,7 @@ app.use(auth0);
 app.use(
   cors({
     credentials: true,
+    origin: "*",
   })
 );
 
