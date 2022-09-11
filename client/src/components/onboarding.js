@@ -14,7 +14,8 @@ import { Link } from "react-router-dom";
 import Image from "./images/Donation.gif";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link as Scroll } from "react-scroll";
-import Textanimation from "./testanimation";
+import Info from "./info";
+import Textanimation from "./textanimation";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,50 +48,57 @@ const useStyles = makeStyles((theme) => ({
 const Onboarding = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root} id="header">
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar class={classes.appbar} elevation={0}>
-          <Typography variant="h2" class={classes.appbarTitle}>
-            DaoFundMe
-          </Typography>
-          <Toolbar
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-            }}
-          >
-            <Box sx={{ color: "black" }}>
-              <Button color="inherit" variant="outlined">
-                Sign In
-              </Button>
-            </Box>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography class={classes.title}>
-              <Textanimation />
-              <Box sx={{ color: "#C66461" }}>
-                <Button
-                  variant="outlined"
-                  color="inherit"
-                  component={Link}
-                  to="/signup"
-                  position="absolute"
-                >
-                  Get Started
+    <div>
+      <div className={classes.root} id="header">
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar class={classes.appbar} elevation={0}>
+            <Typography variant="h2" class={classes.appbarTitle}>
+              DaoFundMe
+            </Typography>
+            <Toolbar
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                width: "100%",
+              }}
+            >
+              <Box sx={{ color: "black" }}>
+                <Button color="inherit" variant="outlined">
+                  Sign In
                 </Button>
               </Box>
-              <IconButton position="relative" style={{ color: "#000" }}>
-                <ExpandMoreIcon />
-              </IconButton>
-            </Typography>
+            </Toolbar>
+          </AppBar>
+        </Box>
+        <Container maxWidth="lg">
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography class={classes.title}>
+                {/* <h1>DaoFundMe</h1>
+                <h3>Decentralized Funding for Nonprofit Projects</h3> */}
+                <Textanimation />
+                <Box sx={{ color: "#C66461" }}>
+                  <Button
+                    variant="outlined"
+                    color="inherit"
+                    component={Link}
+                    to="/signup"
+                    position="absolute"
+                  >
+                    Get Started
+                  </Button>
+                </Box>
+                <Scroll to="info" smooth={true}>
+                  <IconButton position="relative" style={{ color: "#000" }}>
+                    <ExpandMoreIcon />
+                  </IconButton>
+                </Scroll>
+              </Typography>
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </div>
+      <Info />
     </div>
   );
 };
