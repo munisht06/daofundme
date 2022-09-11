@@ -3,32 +3,39 @@ import Sidebar from "../sidebar";
 import "../sidebar.scss";
 import { makeStyles } from "@mui/styles";
 import { ClassNames } from "@emotion/react";
+import DonateModal from "./donateModal";
 import {
   Typography,
   Card,
   Button,
-  CardContent,
+  Modal,
   Paper,
   Grid,
   LinearProgress,
   Box,
 } from "@mui/material";
 
-import {useLocation} from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const Fundraiser = () => {
-
   const location = useLocation();
   const fundraiser = location.state.fundraiser;
-
+  const [open, setOpen] = useState(false);
   const [goal, setGoal] = useState(fundraiser.goal);
   const [raised, setRaised] = useState(5000);
   const [donation, setDonation] = useState(0);
-  const [description, setDescription] = useState( fundraiser.description);
+  const [description, setDescription] = useState(fundraiser.description);
   const [title, setTitle] = useState(fundraiser.title);
   const [image, setImage] = useState("");
   const [id, setId] = useState("");
   const [progress, setProgress] = useState((raised / goal) * 100);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   //define setProgress
   const handleProgressChange = () => {
@@ -55,11 +62,10 @@ const Fundraiser = () => {
     },
     fundraiserContainer: {
       flexDirection: "row",
-     
     },
     fundraiserCard: {
       paddingBlock: 10,
-      marginLeft: 10
+      marginLeft: 10,
     },
     description: {
       padding: 50,
@@ -124,9 +130,17 @@ const Fundraiser = () => {
                 />
               </Box>
               <Box textAlign="center">
-                <Button variant="contained" color="success" align="center">
+                <Button
+                  variant="contained"
+                  color="success"
+                  align="center"
+                  onClick={handleOpen}
+                >
                   Donate
                 </Button>
+                <Modal open={open} onClose={handleClose}>
+                  <DonateModal />
+                </Modal>
               </Box>
             </Paper>
           </Grid>
