@@ -52,19 +52,19 @@ class Fundraiser {
 		}
 	}
 
-	async createFundraiser(username, fundraiserDocRequest) {
+	async createFundraiser(email, fundraiserDocRequest) {
 		const fundraiserExist = await this.getFundraiser(
 			fundraiserDocRequest.title
 		);
 
 		if (!_.isEmpty(fundraiserExist)) return {};
 
-		const fundraiserDoc = { ...fundraiserDocRequest, User: username };
+		const fundraiserDoc = { ...fundraiserDocRequest, User: email };
 
 		try {
 			// Run Statement and add fundraiser to user
 			const result = await this.fundraiserCollection.insertOne(fundraiserDoc);
-			await userController.addFundraiser(username, result.insertedId);
+			await userController.addFundraiser(email, result.insertedId);
 
 			return result;
 		} catch (e) {

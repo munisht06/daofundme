@@ -3,10 +3,10 @@ const _ = require('lodash');
 
 const createFundraiserRoute = async (req, res, next) => {
 	const data = req.body;
-	const username = data.username;
-	delete data.username;
+	const email = data.email;
+	delete data.email;
 
-	const result = await fundraiserController.createFundraiser(username, data);
+	const result = await fundraiserController.createFundraiser(email, data);
 
 	if (!_.isEmpty(result))
 		return res.send({

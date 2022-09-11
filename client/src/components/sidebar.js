@@ -20,7 +20,6 @@ const Sidebar = () => {
   };
   const { logout } = useAuth0();
 
-
   return (
     <div className="sidebar">
       <div className="top">
@@ -46,12 +45,16 @@ const Sidebar = () => {
           <p className="title">MAIN</p>
           <li>
             <DashboardIcon className="icon" />
-            <span>Dashboard</span>
+            <Link to="/dashboard" style={{ textDecoration: "none" }}>
+              <span>Dashboard</span>
+            </Link>
           </li>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
+            <Link to="/profile" style={{ textDecoration: "none" }}>
+              <span>Profile</span>
+            </Link>
           </li>
           <li>
             <ExitToAppIcon className="icon" />
