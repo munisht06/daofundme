@@ -12,6 +12,6 @@ const router = express.Router();
 router.get('/fundraisers', getFundraiserRoute);
 
 // Create fundraisers
-router.get('/create', express.json(), createFundraiserRoute);
+router.post('/create', express.json(), createFundraiserRoute);
 
 module.exports = router;
