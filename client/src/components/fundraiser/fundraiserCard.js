@@ -55,8 +55,7 @@ const FundraiserCard = ({ fundraiser }) => {
             <Button
               size="small"
               onClick={() => {
-                console.log("clicked");
-                navigate("/fundraiser/" + fundraiser.id, {
+                navigate("/fundraiser/" + fundraiser._id, {
                   state: { fundraiser },
                 });
               }}
