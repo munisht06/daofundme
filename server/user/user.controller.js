@@ -15,7 +15,6 @@ class User {
 		try {
 			// Find the user, Add a new fundraiser to the existing list and create document for updating
 			const user = await this.getUser(email);
-			console.log(user);
 			const newFundraiserList = [...user.Fundraiser, fundRaiserId];
 			const updateDoc = {
 				Fundraiser: newFundraiserList,

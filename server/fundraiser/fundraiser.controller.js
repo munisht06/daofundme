@@ -12,6 +12,24 @@ class Fundraiser {
 		this.collectionName = 'Fundraiser';
 	}
 
+	async donate(title, amount) {
+		const fundraiser = await this.getFundraiser(title);
+		const { total, donations } = fundraiser;
+
+		const updateQuery = {
+			...fundraiser,
+			donations: donations + 1,
+			total: total + amount,
+		};
+
+		try {
+			const result = await this.updateFundraiser(title, updateQuery);
+			return result;
+		} catch (e) {
+			throw e;
+		}
+	}
+
 	async updateFundraiser(title, updateDocRequest) {
 		const filter = { title };
 		const options = { upsert: true };
@@ -59,7 +77,12 @@ class Fundraiser {
 
 		if (!_.isEmpty(fundraiserExist)) return {};
 
-		const fundraiserDoc = { ...fundraiserDocRequest, User: email };
+		const fundraiserDoc = {
+			...fundraiserDocRequest,
+			donations: 1,
+			total: 0,
+			User: email,
+		};
 
 		try {
 			// Run Statement and add fundraiser to user

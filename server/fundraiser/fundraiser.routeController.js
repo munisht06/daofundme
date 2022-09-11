@@ -1,6 +1,25 @@
 const fundraiserController = require('./fundraiser.controller');
 const _ = require('lodash');
 
+const donateRoute = async (req, res, next) => {
+	const data = req.body;
+	const result = await fundraiserController.donate(data.title, data.amount);
+
+	if (!_.isNil(result)) {
+		return res.send({
+			status: 200,
+			result,
+			message: 'Successfully Proccesed donation!',
+		});
+	}
+
+	return res.send({
+		status: 400,
+		result: null,
+		message: 'Problem processing donation',
+	});
+};
+
 const createFundraiserRoute = async (req, res, next) => {
 	const data = req.body;
 	const email = data.email;
@@ -30,4 +49,5 @@ const getFundraiserRoute = async (req, res, next) => {
 module.exports = {
 	createFundraiserRoute,
 	getFundraiserRoute,
+	donateRoute,
 };
