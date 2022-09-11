@@ -3,7 +3,7 @@ import * as React from 'react';
 
 function useFundraiser() {
 	// const [response, setResponse] = React.useState("")
-	const apiUrl = 'https://daofundme-dev.herokuapp.com';
+	const apiUrl = 'https://daofundme-prod.herokuapp.com';
 
 	const createFundraiser = async (fundraiserData) => {
 		try {
